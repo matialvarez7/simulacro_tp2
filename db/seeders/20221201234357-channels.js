@@ -8,6 +8,7 @@ module.exports = {
       name: 'America Tv',
       logo_url: 'america.jpg',
       category_id: 1,
+      deviceId: 1,
       createdAt: "2022-11-22 20:45:00",
       updatedAt: "2022-11-22 20:45:00"
     },
@@ -15,12 +16,14 @@ module.exports = {
       name: 'Telefe',
       logo_url: 'telefe.jpg',
       category_id: 1,
+      deviceId: 1,
       createdAt: "2022-11-22 20:45:00",
       updatedAt: "2022-11-22 20:45:00"
     },{
       name: 'TyC Sports',
       logo_url: 'tyc.jpg',
       category_id: 2,
+      deviceId: 1,
       createdAt: "2022-11-22 20:45:00",
       updatedAt: "2022-11-22 20:45:00"
     }
