@@ -7,4 +7,8 @@ router.get('/', async function(req, res, next) {
   res.json(await Category.allCategories());
 });
 
+router.get('/:id/channels', async function(req, res, next){
+  res.json(await Category.channelsByCategory(req.params.id));
+})
+
 module.exports = router;
