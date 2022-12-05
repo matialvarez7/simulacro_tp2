@@ -9,6 +9,11 @@ router.get('/', function(req, res, next) {
   res.json()
 });
 
+router.get('/:id/channels', async function(req, res, next){
+    res.json(await Device.existInFavorites(req.params.id, 3))
+})
+
+// Dar de alta un dispositivo
 router.post('/', async function(req, res, next) {
     
     // Verifico que no me pase nada por parámetro
@@ -45,6 +50,46 @@ router.post('/', async function(req, res, next) {
     }
 });
 
+// Agregar un canal a favoritos del dispositivo
+router.post('/:id/favorites', async function(req, res, next){
+    
+    let myDevice = await Device.idByPkExist(req.params.id);
+    if(!myDevice){
+        res.status(404).json({
+            message: "DEVICE_NOT_FOUND"
+        })
+    }
+
+    let myChannels = await Device.hasTheChannel(req.params.id, req.body.channelId)
+    if(!myChannels){
+        return res.status(400).json({
+            message: "DEVICE_DOES_NOT_HAVE_THE_CHANNEL"
+        })
+    }
+
+    if(await Device.existInFavorites(req.params.id, req.body.channelId)){
+        res.status(400).json({
+            message: "CHANNEL_ALREADY_EXIST_IN_FAVORITES"
+        })
+    }
+
+    try {
+        await Device.addChannelToFavorites(req.params.id, req.body.channelId)
+        return res.status(201).json({message: 'CHANNEL_ADDED_SUCCESSFULLY'})
+      } catch (error) {
+          console.log(error);
+          return res.status(500).json({message: 'error'})
+      }
+
+
+});
+
+// Listar los favoritos de un dispositivo
+router.get('/:id/favorites', async function(req, res, next){
+    res.json(await Device.getAllFavorites(req.params.id));
+});
+
+// Borrar un dispostivo
 router.delete('/:identifier', async function(req, res, next) {
     
     let dropDevice = await Device.identifierExist(req.params.identifier); 
